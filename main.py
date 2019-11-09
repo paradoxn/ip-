@@ -39,7 +39,7 @@ if __name__=="__main__":
     html = requests.get('https://www.baidu.com/s?wd=ip')
     threads = []  # 多线程集合建立
     now = time.time()
-    threedays_interval = now# - 259200
+    threedays_interval = now - 259200
     LL = collection.find({'timestamp': {'$lt': threedays_interval}})
     check_count = collection.count_documents({'timestamp': {'$lt': threedays_interval}})
     for i in LL:  # 每隔0.1秒开启一个线程，分别传入updateMongo的参数为i
