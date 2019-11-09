@@ -25,7 +25,6 @@ if __name__=="__main__":
         threads.append(thread)
         thread.start()
         time.sleep(0.1)
-#    client.close()  #断开数据库
     for thread in threads:
         thread.join()
     end = time.time()
@@ -38,10 +37,6 @@ if __name__=="__main__":
     start2 = time.time()
     script_start2 = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(start))
     html = requests.get('https://www.baidu.com/s?wd=ip')
-    # client = pymongo.MongoClient(host='34.92.209.10', port=27017)  # 连接远程数据库
-    # db = client.paradata
-    # db.authenticate('para', '2415')  # 输入账号密码
-    # collection = db.ip  # 选择table名"ip"
     threads = []  # 多线程集合建立
     now = time.time()
     threedays_interval = now# - 259200
