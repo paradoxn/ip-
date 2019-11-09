@@ -44,9 +44,9 @@ if __name__=="__main__":
     start = time.time()
     script_start = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(start))
     lock = threading.Lock()
-    client=pymongo.MongoClient(host='34.92.209.10',port=27017)  #连接远程mongo数据库
+    client=pymongo.MongoClient(host='127.0.0.1',port=27017)  #连接远程mongo数据库
     db=client.paradata #选择数据库
-    db.authenticate('para','2415')  #输入账号密码
+    db.authenticate('****','****')  #输入账号密码
     collection=db.ip  #选择table名"ip"
     threads=[]  #多线程集合建立
     LSS = proxies_web.Proxies()
