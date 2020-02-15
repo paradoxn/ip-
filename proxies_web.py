@@ -14,7 +14,7 @@ class Proxies(object):
         print('总计获取%s个ip地址' % self.count)
 
 
-    def px_kuai(self,page=5):  #https://www.kuaidaili.com/free/inha/
+    def px_kuai(self,page=10):  #https://www.kuaidaili.com/free/inha/
         proxies_list = []
         print('开始获取www.kuaidaili.com免费高匿ip')
         for i in range(1,page+1):
@@ -45,11 +45,15 @@ class Proxies(object):
     def px_git(self):   #https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list
         proxies_list = []
         print('开始获取https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list免费高匿ip')
-        url = 'https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list'
+        url = 'https://github.com/fate0/proxylist/blob/master/proxy.list'
         try:
             html = requests.get(url,timeout=20,headers=self.headers)
             if html.status_code == 200:
-                proxies_list = html.text.split('\n')[:-1]
+                soup = BeautifulSoup(html.text,'lxml')
+                content = soup.find_all('td',class_='blob-code blob-code-inner js-file-line') 
+                for i in content:
+                    proxies_list.append(i.get_text())
+                #proxies_list = html.text.split('\n')[:-1]
             else:
                 pass
         except Exception as E:

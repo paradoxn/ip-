@@ -14,14 +14,16 @@ def proxyisOK(proxy):  #判断ip是否可用
     except:
         return True
     proxies={
-        'http':proxy,
-        'https':proxy
+        'http':'http://'+proxy,
+        'https':'http://'+proxy
     }
     try:
         html=requests.get('https://www.baidu.com/s?wd=ip',proxies=proxies,timeout=20,headers={'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'})
         if html.status_code==200:
             return True
-    except:
+    except Exception as E:
+        #print(E)
+        #print(proxy,"该ip不可用")
         return False
 
 def updateMongo(i,collection):  # 判断ip否可用，如果不可用则从mongo删除该ip。
@@ -46,6 +48,7 @@ def addMongo(i,collection):  #判断ip否可用，如果可用则上传至mongo�
     now=time.time()
     times = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(now))
     if collection.find_one({'host':host,'port':port}) is None and proxyisOK(proxy):  #如果ip可用且未重复，则将host和port加入数据库内
+        print('%s该ip可用'%i)
         lock.acquire()
         result=collection.insert_one({'host':i['host'],'port':i['port'],'country':i['country'],'type':i['type'],'anonymity':i['anonymity'],'check_time':times,'timestamp':now})
         lock.release()
